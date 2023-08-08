@@ -1,0 +1,3 @@
+[submodule "eth-network-package"]
+	path = eth-network-package
+	url = git@github.com:crytic/eth-network-package.git
