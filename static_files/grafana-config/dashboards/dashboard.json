@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -81,7 +81,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "per min"
         },
         "overrides": []
       },
@@ -433,7 +434,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -443,7 +445,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 14,
+      "id": 22,
       "options": {
         "legend": {
           "calcs": [],
@@ -462,15 +464,16 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "editorMode": "code",
-          "expr": "rate(attestation_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])/(rate(attestation_cache_miss{job=~\"cl-.*-prysm-geth\"}[1m])+rate(attestation_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m]))",
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "go_memstats_stack_inuse_bytes{job=~\"cl-.*-prysm-geth\"}+go_memstats_heap_inuse_bytes{job=~\"cl-.*-prysm-geth\"}",
           "interval": "",
           "legendFormat": "{{job}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Att Cache Hit %",
+      "title": "Prysm Total Mem inuse",
       "type": "timeseries"
     },
     {
@@ -526,7 +529,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -619,17 +623,18 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 6,
         "x": 12,
         "y": 13
       },
-      "id": 18,
+      "id": 14,
       "options": {
         "legend": {
           "calcs": [],
@@ -649,14 +654,14 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "rate(hot_state_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])/(rate(hot_state_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])+rate(hot_state_cache_miss{job=~\"cl-.*-prysm-geth\"}[1m]))",
+          "expr": "rate(attestation_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])/(rate(attestation_cache_miss{job=~\"cl-.*-prysm-geth\"}[1m])+rate(attestation_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m]))",
           "interval": "",
           "legendFormat": "{{job}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Hot State Cache Hit %",
+      "title": "Att Cache Hit %",
       "type": "timeseries"
     },
     {
@@ -712,7 +717,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -810,7 +816,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 16
       },
@@ -865,6 +871,205 @@
         }
       ],
       "title": "Partipants",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 16
+      },
+      "id": 24,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "beacon_processed_deposits_total{job=~\"cl-4-prysm-geth\"}",
+          "hide": false,
+          "legendFormat": "Deposits Processed",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "beacondb_all_deposits{job=~\"cl-4-prysm-geth\"}",
+          "hide": false,
+          "legendFormat": "All Deposits",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Deposits",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 18
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "rate(hot_state_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])/(rate(hot_state_cache_hit{job=~\"cl-.*-prysm-geth\"}[1m])+rate(hot_state_cache_miss{job=~\"cl-.*-prysm-geth\"}[1m]))",
+          "interval": "",
+          "legendFormat": "{{job}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Hot State Cache Hit %",
       "type": "timeseries"
     },
     {
@@ -945,6 +1150,6 @@
   "timezone": "",
   "title": "Eth2 Merge Kurtosis Module Dashboard Copy",
   "uid": "hkBhpYeVk",
-  "version": 8,
+  "version": 12,
   "weekStart": ""
 }
